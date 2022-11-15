@@ -8,7 +8,7 @@ import model.persona;
 public class Conectar {
 
 
-    public static final String SCHEMA_NAME = "prueba";
+    public static final String SCHEMA_NAME = "act0";
     public static final String CONNECTION =
             "jdbc:mysql://localhost:3306/" +
                     SCHEMA_NAME +
@@ -20,14 +20,13 @@ public class Conectar {
 
     public static void main(String[] args) throws SQLException {
         connectar();
-
-        //persona prueba = new persona("1sda2T","Raul","Gomez");
-        //insertNewPersona(prueba);
+        /*persona prueba = new persona("743821","Raul","Gomez");
+        insertNewPersona(prueba);*/
+        System.out.println("=========");
         for (persona persona: getAll()){
-            System.out.println("=========");
-            System.out.println("id : " + persona.getId() + " dni: " + persona.getDni() + " nombre: " + persona.getNombre() + " apellidos: " + persona.getApellidos() );
-            System.out.println("=========");
+            System.out.println("dni: " + persona.getDni() + " nombre: " + persona.getNombre() + " apellidos: " + persona.getApellidos() );
         }
+        System.out.println("=========");
         desconectar();
 
 
@@ -46,7 +45,7 @@ public class Conectar {
     }
 
     public static void insertNewPersona(persona persona) throws SQLException {
-        try (PreparedStatement ps =  conexion.prepareStatement("insert into Persons (dni,nombre, apellidos) values (?,?,?)")) {
+        try (PreparedStatement ps =  conexion.prepareStatement("insert into cliente (dni,name, surname) values (?,?,?)")) {
             ps.setString(1, persona.getDni());
             ps.setString(2, persona.getNombre());
             ps.setString(3, persona.getApellidos());
@@ -58,9 +57,9 @@ public class Conectar {
         ArrayList<persona> personaList = new ArrayList<>();
 
         try (Statement st = conexion.createStatement()) {
-            try (ResultSet rs = st.executeQuery("select * from Persons")) {
+            try (ResultSet rs = st.executeQuery("select * from cliente")) {
                 while(rs.next()){
-                    persona persona = new persona(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    persona persona = new persona(rs.getString(1), rs.getString(2), rs.getString(3));
                     personaList.add(persona);
                 }
             }
